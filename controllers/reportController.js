@@ -7,11 +7,15 @@ const User = require('../models/User');
 
 // Issue a new report
 exports.issueReport = asyncHandler(async (req, res, next) => {
+
+  console.log('Inside issueReport controller');
   const { city, state, pincode, wasteType, description, harmfulLevel,locationLink} = req.body;
   const userId = req.user;
 
+  
+
   // Check for required fields
-  if (!city || !state || !pincode || !wasteType || !description || !harmfulLevel || !locationLink)  {
+  if (!city || !state || !pincode || !wasteType || !description || !harmfulLevel )  {
     return next(new ErrorResponse('Please provide all required fields', 400));
   }
 
@@ -52,6 +56,8 @@ if (req.files && req.files.length > 0) {
     success: true,
     data: report
   });
+
+  next();
 });
 
 
@@ -122,17 +128,26 @@ exports.acceptReport = asyncHandler(async (req, res, next) => {
   res.status(200).json({ success: true, message: 'Report accepted successfully' });
 });
 
-// Fetch accepted reports for the user
+
 exports.fetchAcceptedReports = asyncHandler(async (req, res, next) => {
   const userId = req.user;
 
-  // Find accepted reports where the user is either the issuer or the one who accepted it
-  const acceptedReports = await AcceptedReport.find({ user: userId })
-    .populate('report') // Populate report details if needed
-    .exec();
+  console.log("Current User ID:", userId);
 
-  res.status(200).json({ success: true, acceptedReports });
+  // Find reports accepted by the current user
+  const acceptedByUser = await AcceptedReport.find({ user: userId });
+  console.log("Accepted By Current User:", acceptedByUser);
+
+  // Check if any reports issued by the current user exist
+  const issuedByUser = await Report.find({ user: userId });
+  console.log("Issued By Current User:", issuedByUser);
+
+  res.status(200).json({
+    success: true,
+    acceptedReports: { acceptedByUser, issuedByUser }
+  });
 });
+
 
 
 

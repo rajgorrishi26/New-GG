@@ -50,6 +50,16 @@ const ReportSchema = new mongoose.Schema({
   locationLink: {  
     type: String,
     required: true 
+  },
+
+  rating : {
+    type : Number,
+    default: 0,
+
+  },
+
+  description : {
+    type : String,
   }
   
 }, { timestamps: true });
