@@ -129,18 +129,18 @@ exports.acceptReport = asyncHandler(async (req, res, next) => {
 });
 
 
+//fetch Accepted Reports
+
 exports.fetchAcceptedReports = asyncHandler(async (req, res, next) => {
   const userId = req.user;
 
-  console.log("Current User ID:", userId);
-
   // Find reports accepted by the current user
   const acceptedByUser = await AcceptedReport.find({ user: userId });
-  console.log("Accepted By Current User:", acceptedByUser);
+  
 
   // Check if any reports issued by the current user exist
   const issuedByUser = await Report.find({ user: userId });
-  console.log("Issued By Current User:", issuedByUser);
+
 
   res.status(200).json({
     success: true,
