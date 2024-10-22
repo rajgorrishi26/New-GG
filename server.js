@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const cors = require('cors'); // Import cors
 const authRoutes = require('./routes/authRoutes');
 const reportRoutes = require('./routes/reportRoutes');
-// const recyclingRoutes = require('./routes/recyclingRoutes');
+const recyclingRoutes = require('./routes/recyclingRoutes');
 // const serviceRoutes = require('./routes/serviceRoutes');
 
 
@@ -24,7 +24,7 @@ connectDB();
 // Routes
 app.use('/auth', authRoutes);
 app.use('/report', reportRoutes);
-// app.use('/sellRecyclingProducts', recyclingRoutes);
+app.use('/sellRecyclingProducts', recyclingRoutes);
 // app.use('/serviceRequest', serviceRoutes);
 
 // Error handling Middleware (optional)
