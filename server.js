@@ -5,6 +5,7 @@ const cors = require('cors'); // Import cors
 const authRoutes = require('./routes/authRoutes');
 const reportRoutes = require('./routes/reportRoutes');
 const recyclingRoutes = require('./routes/recyclingRoutes');
+const orderRoutes = require('./routes/orderRoutes');
 // const serviceRoutes = require('./routes/serviceRoutes');
 
 
@@ -19,13 +20,14 @@ app.use(express.json());  // To parse JSON bodies
 
 // Database Connection
 const connectDB = require('./config/db');
+const Order = require('./models/Order');
 connectDB();
 
 // Routes
 app.use('/auth', authRoutes);
 app.use('/report', reportRoutes);
 app.use('/sellRecyclingProducts', recyclingRoutes);
-// app.use('/serviceRequest', serviceRoutes);
+app.use('/purchaseProduct',orderRoutes);
 
 // Error handling Middleware (optional)
 app.use((err, req, res, next) => {
